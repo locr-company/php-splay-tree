@@ -10,17 +10,16 @@ namespace SplayTree;
  */
 class SplayTree
 {
-    private callable $comparator;
+    /**
+     * @var callable
+     */
+    private mixed $comparator;
     private ?Node $root = null;
     private int $size = 0;
 
-    public const DEFAULT_COMPARATOR = function (int $a, int $b): int {
-        return $a > $b ? 1 : ($a < $b ? -1 : 0);
-    };
-
-    public function __construct(callable $comparator = self::DEFAULT_COMPARATOR)
+    public function __construct(callable $comparator = null)
     {
-        $this->comparator = $comparator;
+        $this->comparator = $comparator ?? self::defaultComparator();
     }
 
     public function __get(string $name): mixed
@@ -73,15 +72,15 @@ class SplayTree
         $current = $this->root;
         $done = false;
         $i = 0;
-        $Q = [];
+        $q = [];
 
         while (!$done) {
             if (!is_null($current)) {
-                $Q[] = $current;
+                $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($Q) > 0) {
-                    $current = array_pop($Q);
+                if (count($q) > 0) {
+                    $current = array_pop($q);
                     if ($i === $index) {
                         return $current;
                     }
@@ -137,6 +136,13 @@ class SplayTree
         return $head->next;
     }
 
+    private static function defaultComparator(): callable
+    {
+        return function (int $a, int $b): int {
+            return $a > $b ? 1 : ($a < $b ? -1 : 0);
+        };
+    }
+
     public function find(int $key): ?Node
     {
         if ($this->root) {
@@ -171,16 +177,16 @@ class SplayTree
     public function forEach(callable $visitor, mixed $ctx = null): self
     {
         $current = $this->root;
-        $Q = []; /* Initialize stack s */
+        $q = []; /* Initialize stack s */
         $done = false;
 
         while (!$done) {
             if (!is_null($current)) {
-                $Q[] = $current;
+                $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($Q) !== 0) {
-                    $current = array_pop($Q);
+                if (count($q) !== 0) {
+                    $current = array_pop($q);
                     // $visitor.call($ctx, $current);
                     $visitor($current);
 
@@ -471,17 +477,17 @@ class SplayTree
      */
     public function range(int $low, int $high, callable $fn, mixed $ctx = null): self
     {
-        $Q = [];
+        $q = [];
         $compare = $this->comparator;
         $node = $this->root;
         $cmp = 0;
 
-        while (count($Q) !== 0 || !is_null($node)) {
+        while (count($q) !== 0 || !is_null($node)) {
             if (!is_null($node)) {
-                $Q[] = $node;
+                $q[] = $node;
                 $node = $node->left;
             } else {
-                $node = array_pop($Q);
+                $node = array_pop($q);
                 $cmp = $compare($node->key, $high);
                 if ($cmp > 0) {
                     break;
@@ -583,9 +589,9 @@ class SplayTree
 
     private static function splayInternal(int $i, ?Node $t, callable $comparator): Node
     {
-        $N = new Node(null, null);
-        $l = $N;
-        $r = $N;
+        $n = new Node(null, null);
+        $l = $n;
+        $r = $n;
 
         while (true) {
             $cmp = $comparator($i, $t->key);
@@ -628,8 +634,8 @@ class SplayTree
         /* assemble */
         $l->right = $t->left;
         $r->left = $t->right;
-        $t->left = $N->right;
-        $t->right = $N->left;
+        $t->left = $n->right;
+        $t->right = $n->left;
         return $t;
     }
 
@@ -680,7 +686,7 @@ class SplayTree
     private static function toListInternal(Node $root): Node
     {
         $current = $root;
-        $Q = [];
+        $q = [];
         $done = false;
 
         $head = new Node(null, null);
@@ -688,11 +694,11 @@ class SplayTree
 
         while (!$done) {
             if (!is_null($current)) {
-                $Q[] = $current;
+                $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($Q) > 0) {
-                    $p->next = array_pop($Q);
+                if (count($q) > 0) {
+                    $p->next = array_pop($q);
                     $p = $p->next;
                     $current = $p;
                     $current = $current->right;

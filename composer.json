@@ -3,5 +3,9 @@
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.8",
         "squizlabs/php_codesniffer": "^3.7"
+    },
+    "scripts": {
+        "phpcs": "./vendor/bin/phpcs ./src",
+        "phpstan": "./vendor/bin/phpstan"
     }
 }
