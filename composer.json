@@ -6,6 +6,7 @@
     },
     "scripts": {
         "phpcs": "./vendor/bin/phpcs ./src",
-        "phpstan": "./vendor/bin/phpstan"
+        "phpstan": "./vendor/bin/phpstan",
+        "test": "./vendor/phpunit/phpunit/phpunit"
     }
 }

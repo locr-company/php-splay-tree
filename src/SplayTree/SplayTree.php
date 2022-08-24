@@ -121,10 +121,10 @@ class SplayTree
     }
 
     /**
-     * @param int[] $keys
+     * @param int[]|array<mixed>[] $keys
      * @param mixed[] $values
      */
-    private static function createList(array $keys, array $values): Node
+    private static function createList(array $keys, array $values): ?Node
     {
         $head = new Node(null, null);
         $p = $head;
@@ -202,15 +202,19 @@ class SplayTree
 
     /**
      * Inserts a key, allows duplicates
+     * @param int|array<mixed> $key
      */
-    public function insert(int $key, mixed $data = null): Node
+    public function insert(int|array $key, mixed $data = null): Node
     {
         $this->size++;
         $this->root = self::insertInternal($key, $data, $this->root, $this->comparator);
         return $this->root;
     }
 
-    private static function insertInternal(int $i, mixed $data, Node $t, callable $comparator): Node
+    /**
+     * @param int|array<mixed> $i
+     */
+    private static function insertInternal(int|array $i, mixed $data, ?Node $t, callable $comparator): Node
     {
         $node = new Node($i, $data);
 
@@ -242,19 +246,24 @@ class SplayTree
 
     /**
      * Returns array of keys
-     * @return int[]
+     * @return int[]|array<mixed>[]
      */
     public function keys(): array
     {
         $keys = [];
         $this->forEach(function (Node $node) use (&$keys) {
-            $keys[] = $node->key;
+            if (!is_null($node->key)) {
+                $keys[] = $node->key;
+            }
         });
+
         return $keys;
     }
 
     /**
      * Bulk-load items. Both array have to be same size
+     * @param int[]|array<mixed>[] $keys
+     * @param array<mixed> $values
      */
     public function load(array $keys, array $values = [], bool $presort = false): self
     {
@@ -279,14 +288,14 @@ class SplayTree
     }
 
     /**
-     * @param int[] $keys
+     * @param int[]|array<mixed>[] $keys
      * @param mixed[] $values
      */
     private static function loadRecursive(array $keys, array $values, int $start, int $end): ?Node
     {
         $size = $end - $start;
         if ($size > 0) {
-            $middle = $start + floor($size / 2);
+            $middle = (int)($start + floor($size / 2));
             $key = $keys[$middle];
             $data = $values[$middle];
             $node = new Node($key, $data);
@@ -297,10 +306,16 @@ class SplayTree
         return null;
     }
 
-    public function max(): ?int
+    /**
+     * @return int|array<mixed>|null
+     */
+    public function max(): int|array|null
     {
         if (!is_null($this->root)) {
-            return $this->maxNode($this->root)->key;
+            $maxNode = $this->maxNode($this->root);
+            if (!is_null($maxNode)) {
+                return $maxNode->key;
+            }
         }
 
         return null;
@@ -327,12 +342,15 @@ class SplayTree
             return $right;
         }
 
+        if (is_null($left->key)) {
+            return null;
+        }
         $right = self::splayInternal($left->key, $right, $comparator);
         $right->left = $left;
         return $right;
     }
 
-    private static function mergeLists(Node $l1, Node $l2, callable $compare): Node
+    private static function mergeLists(?Node $l1, ?Node $l2, callable $compare): ?Node
     {
         $head = new Node(null, null); // dummy
         $p = $head;
@@ -360,10 +378,16 @@ class SplayTree
         return $head->next;
     }
 
-    public function min(): ?int
+    /**
+     * @return int|array<mixed>|null
+     */
+    public function min(): int|array|null
     {
         if (!is_null($this->root)) {
-            return $this->minNode($this->root)->key;
+            $minNode = $this->minNode($this->root);
+            if (!is_null($minNode)) {
+                return $minNode->key;
+            }
         }
 
         return null;
@@ -412,17 +436,21 @@ class SplayTree
 
     /**
      * Removes and returns the node with smallest key
-     * @return null|array{'key': int, 'data': mixed}
+     * @return null|array{'key': int|array<mixed>, 'data': mixed}
      */
     public function pop(): ?array
     {
-        $node = $this->root;
-        if (!is_null($node)) {
+        if (!is_null($this->root)) {
+            $node = $this->root;
             while ($node->left) {
                 $node = $node->left;
             }
+            if (is_null($node->key)) {
+                return null;
+            }
             $this->root = self::splayInternal($node->key, $this->root, $this->comparator);
             $this->root = $this->removeInternal($node->key, $this->root, $this->comparator);
+
             return [
                 'key' => $node->key,
                 'data' => $node->data
@@ -508,7 +536,10 @@ class SplayTree
         $this->root = $this->removeInternal($key, $this->root, $this->comparator);
     }
 
-    private function removeInternal(int $i, ?Node $t, callable $comparator): ?Node
+    /**
+     * @param int|array<mixed> $i
+     */
+    private function removeInternal(int|array $i, ?Node $t, callable $comparator): ?Node
     {
         $x = null;
         if (is_null($t)) {
@@ -530,6 +561,10 @@ class SplayTree
         return $t; /* It wasn't there */
     }
 
+    /**
+     * @param int[]|array<mixed>[] $keys
+     * @param array<mixed> $values
+     */
     private static function sort(array $keys, array $values, int $left, int $right, callable $compare): void
     {
         if ($left >= $right) {
@@ -569,9 +604,13 @@ class SplayTree
      */
     private static function sortedListToBST(array $list, int $start, int $end): ?Node
     {
+        if (is_null($list['head'])) {
+            return null;
+        }
+
         $size = $end - $start;
         if ($size > 0) {
-            $middle = $start + floor($size / 2);
+            $middle = (int)($start + floor($size / 2));
             $left = self::sortedListToBST($list, $start, $middle);
 
             $root = $list['head'];
@@ -587,7 +626,10 @@ class SplayTree
         return null;
     }
 
-    private static function splayInternal(int $i, ?Node $t, callable $comparator): Node
+    /**
+     * @param int|array<mixed> $i
+     */
+    private static function splayInternal(int|array $i, Node $t, callable $comparator): Node
     {
         $n = new Node(null, null);
         $l = $n;
@@ -631,11 +673,13 @@ class SplayTree
                 break;
             }
         }
+
         /* assemble */
         $l->right = $t->left;
         $r->left = $t->right;
         $t->left = $n->right;
         $t->right = $n->left;
+
         return $t;
     }
 
@@ -650,7 +694,7 @@ class SplayTree
     /**
      * @return array{'left': ?Node, 'right': ?Node}
      */
-    private static function splitInternal(int $key, Node $v, callable $comparator): array
+    private static function splitInternal(int $key, ?Node $v, callable $comparator): array
     {
         $left = null;
         $right = null;
@@ -678,12 +722,12 @@ class SplayTree
         ];
     }
 
-    public function toList()
+    public function toList(): ?Node
     {
         return self::toListInternal($this->root);
     }
 
-    private static function toListInternal(Node $root): Node
+    private static function toListInternal(?Node $root): ?Node
     {
         $current = $root;
         $q = [];
@@ -697,7 +741,7 @@ class SplayTree
                 $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($q) > 0) {
+                if (!is_null($p) && count($q) > 0) {
                     $p->next = array_pop($q);
                     $p = $p->next;
                     $current = $p;
@@ -715,26 +759,30 @@ class SplayTree
     public function toString(callable $printNode): string
     {
         $out = [];
-        self::printRow(
-            $this->root,
-            '',
-            true,
-            function ($v) use (&$out) {
-                $out[] = $v;
-            },
-            $printNode
-        );
+
+        if (!is_null($this->root)) {
+            self::printRow(
+                $this->root,
+                '',
+                true,
+                function ($v) use (&$out) {
+                    $out[] = $v;
+                },
+                $printNode
+            );
+        }
+
         return implode('', $out);
     }
 
     public function update(int $key, int $newKey, mixed $newData = null): void
     {
         $comparator = $this->comparator;
-        list('left' => $left, 'right' => $right) = self::split($key, $this->root, $comparator);
+        list('left' => $left, 'right' => $right) = self::splitInternal($key, $this->root, $comparator);
         if ($comparator($key, $newKey) < 0) {
-            $right = self::insert($newKey, $newData, $right, $comparator);
+            $right = self::insertInternal($newKey, $newData, $right, $comparator);
         } else {
-            $left = self::insert($newKey, $newData, $left, $comparator);
+            $left = self::insertInternal($newKey, $newData, $left, $comparator);
         }
         $this->root = self::merge($left, $right, $comparator);
     }

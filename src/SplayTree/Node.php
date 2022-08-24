@@ -6,13 +6,19 @@ namespace SplayTree;
 
 class Node
 {
-    public ?int $key = null;
+    /**
+     * @var int|array<mixed>|null
+     */
+    public int|array|null $key = null;
     public mixed $data = null;
     public ?self $left = null;
     public ?self $right = null;
     public ?self $next = null;
 
-    public function __construct(?int $key, mixed $data = null)
+    /**
+     * @param int|array<mixed>|null $key
+     */
+    public function __construct(int|array|null $key, mixed $data = null)
     {
         $this->key = $key;
         $this->data = $data;
