@@ -5,8 +5,11 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use SplayTree\SplayTree;
 
-final class StackTest extends TestCase
+final class SplayTreeCompareTest extends TestCase
 {
+    /**
+     * should function correctly given a non-reverse customCompare
+     */
     public function testCompare1(): void
     {
         $tree = new SplayTree(function ($a, $b) {return $b - $a;});
@@ -23,6 +26,9 @@ final class StackTest extends TestCase
         $this->assertEquals(1, $tree->root->right->key);
     }
 
+    /**
+     * should support custom keys
+     */
     public function testCompare2(): void
     {
         $comparator = function (array $a, array $b) {

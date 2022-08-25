@@ -7,13 +7,16 @@ namespace SplayTree;
 /**
  * @property-read ?Node $root
  * @property-read int $size
+ * @implements \Iterator<int, ?Node>
  */
-class SplayTree
+class SplayTree implements \Iterator
 {
     /**
      * @var callable
      */
     private mixed $comparator;
+    private ?Node $currentIteratorNode = null;
+    private int $currentIteratorPosition = 0;
     private ?Node $root = null;
     private int $size = 0;
 
@@ -32,6 +35,37 @@ class SplayTree
         }
 
         return null;
+    }
+
+    public function current(): mixed
+    {
+        return $this->currentIteratorNode;
+    }
+
+    public function key(): mixed
+    {
+        return $this->currentIteratorPosition;
+    }
+
+    public function next(): void
+    {
+        if (is_null($this->currentIteratorNode)) {
+            return;
+        }
+
+        $this->currentIteratorNode = $this->nextNode($this->currentIteratorNode);
+        $this->currentIteratorPosition++;
+    }
+
+    public function rewind(): void
+    {
+        $this->currentIteratorNode = $this->minNode();
+        $this->currentIteratorPosition = 0;
+    }
+
+    public function valid(): bool
+    {
+        return !is_null($this->currentIteratorNode);
     }
 
     public function add(int $key, mixed $data = null): Node
@@ -129,7 +163,10 @@ class SplayTree
         $head = new Node(null, null);
         $p = $head;
         for ($i = 0; $i < count($keys); $i++) {
-            $p = $p->next = new Node($keys[$i], $values[$i]);
+            $key = $keys[$i];
+            $data = isset($values[$i]) ? $values[$i] : null;
+            $p->next = new Node($key, $data);
+            $p = $p->next;
         }
         $p->next = null;
 
@@ -138,7 +175,7 @@ class SplayTree
 
     private static function defaultComparator(): callable
     {
-        return function (int $a, int $b): int {
+        return function (int|float $a, int|float $b): int {
             return $a > $b ? 1 : ($a < $b ? -1 : 0);
         };
     }
@@ -281,7 +318,8 @@ class SplayTree
         } else { // that re-builds the whole tree from two in-order traversals
             $mergedList = self::mergeLists($this->toList(), self::createList($keys, $values), $comparator);
             $size = $this->size + $size;
-            $this->root = self::sortedListToBST(['head' => $mergedList], 0, $size);
+            $list = ['head' => $mergedList];
+            $this->root = self::sortedListToBST($list, 0, $size);
         }
 
         return $this;
@@ -297,7 +335,7 @@ class SplayTree
         if ($size > 0) {
             $middle = (int)($start + floor($size / 2));
             $key = $keys[$middle];
-            $data = $values[$middle];
+            $data = $values[$middle] ?? null;
             $node = new Node($key, $data);
             $node->left = self::loadRecursive($keys, $values, $start, $middle);
             $node->right = self::loadRecursive($keys, $values, $middle + 1, $end);
@@ -405,7 +443,7 @@ class SplayTree
         return $t;
     }
 
-    public function next(Node $d): ?Node
+    public function nextNode(Node $d): ?Node
     {
         $root = $this->root;
         $successor = null;
@@ -460,7 +498,7 @@ class SplayTree
         return null;
     }
 
-    public function prev(Node $d): ?Node
+    public function previousNode(Node $d): ?Node
     {
         $root = $this->root;
         $predecessor = null;
@@ -490,7 +528,8 @@ class SplayTree
 
     private static function printRow(Node $root, string $prefix, bool $isTail, callable $out, callable $printNode): void
     {
-        //out(`${ prefix }${ isTail ? '└── ' : '├── ' }${ printNode(root) }\n`);
+        $tail = $isTail ? '└── ' : '├── ';
+        $out("{$prefix}{$tail}{$printNode($root)}\n");
         $indent = $prefix . ($isTail ? '    ' : '│   ');
         if (!is_null($root->left)) {
             self::printRow($root->left, $indent, false, $out, $printNode);
@@ -565,7 +604,7 @@ class SplayTree
      * @param int[]|array<mixed>[] $keys
      * @param array<mixed> $values
      */
-    private static function sort(array $keys, array $values, int $left, int $right, callable $compare): void
+    private static function sort(array &$keys, array &$values, int $left, int $right, callable $compare): void
     {
         if ($left >= $right) {
             return;
@@ -590,6 +629,12 @@ class SplayTree
             $keys[$i] = $keys[$j];
             $keys[$j] = $tmp;
 
+            if (!isset($values[$i])) {
+                $values[$i] = null;
+            }
+            if (!isset($values[$j])) {
+                $values[$j] = null;
+            }
             $tmp = $values[$i];
             $values[$i] = $values[$j];
             $values[$j] = $tmp;
@@ -602,7 +647,7 @@ class SplayTree
     /**
      * @param array{'head': Node|null} $list
      */
-    private static function sortedListToBST(array $list, int $start, int $end): ?Node
+    private static function sortedListToBST(array &$list, int $start, int $end): ?Node
     {
         if (is_null($list['head'])) {
             return null;
@@ -629,7 +674,7 @@ class SplayTree
     /**
      * @param int|array<mixed> $i
      */
-    private static function splayInternal(int|array $i, Node $t, callable $comparator): Node
+    private static function splayInternal(int|float|array $i, Node $t, callable $comparator): Node
     {
         $n = new Node(null, null);
         $l = $n;
@@ -686,7 +731,7 @@ class SplayTree
     /**
      * @return array{'left': ?Node, 'right': ?Node}
      */
-    public function split(int $key): array
+    public function split(int|float $key): array
     {
         return self::splitInternal($key, $this->root, $this->comparator);
     }
@@ -694,7 +739,7 @@ class SplayTree
     /**
      * @return array{'left': ?Node, 'right': ?Node}
      */
-    private static function splitInternal(int $key, ?Node $v, callable $comparator): array
+    private static function splitInternal(int|float $key, ?Node $v, callable $comparator): array
     {
         $left = null;
         $right = null;
@@ -756,9 +801,21 @@ class SplayTree
         return $head->next;
     }
 
-    public function toString(callable $printNode): string
+    public function toString(callable $printNode = null): string
     {
         $out = [];
+
+        if (is_null($printNode)) {
+            $printNode = function (Node $n): string {
+                if (is_null($n->key)) {
+                    return '';
+                }
+                if (is_array($n->key)) {
+                    return implode(',', $n->key);
+                }
+                return (string)$n->key;
+            };
+        }
 
         if (!is_null($this->root)) {
             self::printRow(
