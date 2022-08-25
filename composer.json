@@ -1,5 +1,5 @@
 {
-    "name": "splay-tree",
+    "name": "locr-company/splay-tree",
     "description": "Fast splay-tree data structure",
     "license": "MIT",
     "require-dev": {
