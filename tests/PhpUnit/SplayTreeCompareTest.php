@@ -42,7 +42,8 @@ final class SplayTreeCompareTest extends TestCase
                 'data' => pow($i, 2)
             ];
         }
-        shuffle($objects);
+        // this use of the shuffle function has not a cryptographic purpose!
+        shuffle($objects); // Devskim: ignore DS148264
 
         foreach ($objects as $o) {
             $tree->insert($o);
