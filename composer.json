@@ -1,4 +1,7 @@
 {
+    "name": "splay-tree",
+    "description": "Fast splay-tree data structure",
+    "license": "MIT",
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.8",
