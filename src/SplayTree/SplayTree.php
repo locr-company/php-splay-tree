@@ -570,7 +570,7 @@ class SplayTree implements \Iterator
         return $this;
     }
 
-    public function remove(int $key): void
+    public function remove(int|float $key): void
     {
         $this->root = $this->removeInternal($key, $this->root, $this->comparator);
     }
