@@ -68,7 +68,7 @@ class SplayTree implements \Iterator
         return !is_null($this->currentIteratorNode);
     }
 
-    public function add(int $key, mixed $data = null): Node
+    public function add(int|float $key, mixed $data = null): Node
     {
         $node = new Node($key, $data);
 
@@ -283,7 +283,7 @@ class SplayTree implements \Iterator
 
     /**
      * Returns array of keys
-     * @return int[]|array<mixed>[]
+     * @return int[]|float[]|array<mixed>[]
      */
     public function keys(): array
     {
@@ -345,9 +345,9 @@ class SplayTree implements \Iterator
     }
 
     /**
-     * @return int|array<mixed>|null
+     * @return int|float|array<mixed>|null
      */
-    public function max(): int|array|null
+    public function max(): int|float|array|null
     {
         if (!is_null($this->root)) {
             $maxNode = $this->maxNode($this->root);
@@ -417,9 +417,9 @@ class SplayTree implements \Iterator
     }
 
     /**
-     * @return int|array<mixed>|null
+     * @return int|float|array<mixed>|null
      */
-    public function min(): int|array|null
+    public function min(): int|float|array|null
     {
         if (!is_null($this->root)) {
             $minNode = $this->minNode($this->root);
@@ -474,7 +474,7 @@ class SplayTree implements \Iterator
 
     /**
      * Removes and returns the node with smallest key
-     * @return null|array{'key': int|array<mixed>, 'data': mixed}
+     * @return null|array{'key': int|float|array<mixed>, 'data': mixed}
      */
     public function pop(): ?array
     {
@@ -576,9 +576,9 @@ class SplayTree implements \Iterator
     }
 
     /**
-     * @param int|array<mixed> $i
+     * @param int|float|array<mixed> $i
      */
-    private function removeInternal(int|array $i, ?Node $t, callable $comparator): ?Node
+    private function removeInternal(int|float|array $i, ?Node $t, callable $comparator): ?Node
     {
         $x = null;
         if (is_null($t)) {
