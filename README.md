@@ -3,6 +3,9 @@
 [Splay-tree](https://en.wikipedia.org/wiki/Splay_tree): **fast**(non-recursive) and **simple**(< 1000 lines of code)
 Implementation is adapted directly from this [GitHub Repository](https://github.com/w8r/splay-tree/).
 
+![php](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)
+[![codecov](https://codecov.io/gh/locr-company/php-splay-tree/branch/main/graph/badge.svg?token=KESLR0XLJJ)](https://codecov.io/gh/locr-company/php-splay-tree)
+
 
 This tree is based on **top-down** splaying algorithm by D.Sleator. It supports
  - splitting, merging
