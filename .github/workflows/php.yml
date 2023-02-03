@@ -43,6 +43,7 @@ jobs:
 
     - name: Run test suite
       run: |
+        apt-get install php-xdebug
         composer run-script test
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
