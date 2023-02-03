@@ -23,7 +23,7 @@
     "scripts": {
         "phpcs": "./vendor/bin/phpcs ./src",
         "phpstan": "./vendor/bin/phpstan",
-        "test": "./vendor/bin/phpunit"
+        "test": "phpdbg -qrr ./vendor/bin/phpunit"
     },
     "autoload": {
         "psr-4": {
