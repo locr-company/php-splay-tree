@@ -2,17 +2,27 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeCompareTest extends TestCase
 {
     /**
      * should function correctly given a non-reverse customCompare
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testCompare1(): void
     {
-        $tree = new SplayTree(function ($a, $b) {return $b - $a;});
+        $tree = new SplayTree(function ($a, $b) {
+            return $b - $a;
+        });
         $tree->insert(2);
         $tree->insert(1);
         $tree->insert(3);
@@ -28,6 +38,8 @@ final class SplayTreeCompareTest extends TestCase
 
     /**
      * should support custom keys
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testCompare2(): void
     {

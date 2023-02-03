@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeEmptyTest extends TestCase
 {
     /**
      * should return whether the tree is empty
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testEmpty1(): void
     {

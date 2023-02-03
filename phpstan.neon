@@ -1,7 +1,5 @@
 parameters:
     phpVersion: 80100
     level: 9
-    bootstrapFiles:
-        - src/autoload.php
     paths:
         - src

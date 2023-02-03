@@ -2,9 +2,15 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\{Node, SplayTree};
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\{Node, SplayTree};
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeUpdateTest extends TestCase
 {
     private function createTree(array $values): SplayTree
@@ -30,6 +36,8 @@ final class SplayTreeUpdateTest extends TestCase
 
     /**
      * split
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testUpdate1(): void
     {
@@ -61,6 +69,8 @@ final class SplayTreeUpdateTest extends TestCase
 
     /**
      * merge
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testUpdate2(): void
     {

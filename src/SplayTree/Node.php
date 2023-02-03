@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SplayTree;
+namespace Locr\Lib\SplayTree;
 
 class Node
 {

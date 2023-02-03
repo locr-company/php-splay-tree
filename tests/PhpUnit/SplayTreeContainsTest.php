@@ -2,9 +2,15 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeContainsTest extends TestCase
 {
     /**
@@ -18,6 +24,8 @@ final class SplayTreeContainsTest extends TestCase
 
     /**
      * should return whether the tree contains a node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testContains2(): void
     {
@@ -35,6 +43,8 @@ final class SplayTreeContainsTest extends TestCase
 
     /**
      * should return false when the expected parent has no children
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testContains3(): void
     {

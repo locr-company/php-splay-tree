@@ -2,9 +2,15 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeRemoveTest extends TestCase
 {
     /**
@@ -19,6 +25,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should remove a single key
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove2(): void
     {
@@ -30,6 +38,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should ignore a single key which is not there
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove3(): void
     {
@@ -41,6 +51,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should take the right child if the left does not exist
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove4(): void
     {
@@ -53,6 +65,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should take the left child if the right does not exist
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove5(): void
     {
@@ -65,6 +79,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should not break the existing pointers to nodes
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove6(): void
     {
@@ -82,6 +98,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * pop()
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove7(): void
     {
@@ -97,6 +115,8 @@ final class SplayTreeRemoveTest extends TestCase
 
     /**
      * should support clear operation
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testRemove8(): void
     {

@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeInsertTest extends TestCase
 {
     /**
      * should return the size of the tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testInsert1(): void
     {
@@ -23,6 +31,8 @@ final class SplayTreeInsertTest extends TestCase
 
     /**
      * should return the pointer
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testInsert2(): void
     {
@@ -30,7 +40,7 @@ final class SplayTreeInsertTest extends TestCase
         $n1 = $tree->insert(1);
         $n2 = $tree->insert(2);
         $n3 = $tree->insert(3);
-    
+
         $this->assertEquals(1, $n1->key);
         $this->assertEquals(2, $n2->key);
         $this->assertEquals(3, $n3->key);

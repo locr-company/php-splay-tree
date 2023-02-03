@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SplayTree;
+namespace Locr\Lib\SplayTree;
 
 /**
  * @property-read ?Node $root
@@ -27,14 +27,11 @@ class SplayTree implements \Iterator
 
     public function __get(string $name): mixed
     {
-        switch ($name) {
-            case 'root':
-                return $this->root;
-            case 'size':
-                return $this->size;
-        }
-
-        return null;
+        return match ($name) {
+            'root' => $this->root,
+            'size' => $this->size,
+            default => null
+        };
     }
 
     public function current(): mixed

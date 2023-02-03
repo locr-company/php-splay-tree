@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreePrintTest extends TestCase
 {
     /**
      * should print the tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testPrint1(): void
     {
@@ -26,6 +34,8 @@ final class SplayTreePrintTest extends TestCase
 
     /**
      * should print the balanced tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testPrint2(): void
     {
@@ -33,7 +43,7 @@ final class SplayTreePrintTest extends TestCase
         for ($i = 0; $i < 3; $i++) {
             $tree->insert($i);
         }
-    
+
         $tree->find(1);
         $expectedString = "└── 1\n";
         $expectedString .= "    ├── 0\n";

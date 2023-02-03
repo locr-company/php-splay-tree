@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeFindTest extends TestCase
 {
     /**
      * should return key as the result of search
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testFind1(): void
     {
@@ -39,6 +47,8 @@ final class SplayTreeFindTest extends TestCase
 
     /**
      * should allow finding node without splaying
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testFind2(): void
     {
@@ -50,20 +60,20 @@ final class SplayTreeFindTest extends TestCase
         $tree->insert(1, 4);
         $tree->insert(2, 5);
         $tree->insert(3, 6);
-    
+
         $tree->find(2);
         $root = $tree->root;
         $this->assertEquals(4, $tree->findStatic(1)->data);
         $this->assertEquals($tree->root, $root);
-    
+
         $this->assertEquals(5, $tree->findStatic(2)->data);
         $this->assertEquals($tree->root, $root);
-    
+
         $this->assertEquals(6, $tree->findStatic(3)->data);
         $this->assertEquals($tree->root, $root);
-    
+
         $this->assertEquals(8, $tree->findStatic(-2)->data);
-    
+
         $this->assertEquals($tree->root, $tree->find(2));
     }
 }

@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeMinMaxTest extends TestCase
 {
     /**
      * should return the maximum key in the tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testMinMax1(): void
     {
@@ -32,6 +40,8 @@ final class SplayTreeMinMaxTest extends TestCase
 
     /**
      * should return the minimum key in the tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testMinMax3(): void
     {
@@ -46,6 +56,8 @@ final class SplayTreeMinMaxTest extends TestCase
 
     /**
      * should return the max node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testMinMax4(): void
     {
@@ -71,6 +83,8 @@ final class SplayTreeMinMaxTest extends TestCase
 
     /**
      * should return the min node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testMinMax6(): void
     {
@@ -96,6 +110,8 @@ final class SplayTreeMinMaxTest extends TestCase
 
     /**
      * should support removing min node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testMinMax8(): void
     {

@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeBulkTest extends TestCase
 {
     /**
      * should allow bulk-insert
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk1(): void
     {
@@ -23,6 +31,8 @@ final class SplayTreeBulkTest extends TestCase
 
     /**
      * should allow bulk-insert without values
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk2(): void
     {
@@ -31,11 +41,18 @@ final class SplayTreeBulkTest extends TestCase
         $tree->load($keys);
 
         $this->assertEquals($keys, $tree->keys());
-        $this->assertEquals(array_map(function ($_) { return null; }, $keys), $tree->values());
+        $this->assertEquals(
+            array_map(function ($_dummy) {
+                return null;
+            }, $keys),
+            $tree->values()
+        );
     }
 
     /**
      * should be able to load into a tree with contents
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk3(): void
     {
@@ -48,6 +65,8 @@ final class SplayTreeBulkTest extends TestCase
 
     /**
      * should be able to load less contents into a tree with contents
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk4(): void
     {
@@ -60,6 +79,8 @@ final class SplayTreeBulkTest extends TestCase
 
     /**
      * should be able to load more contents into a tree with less contents
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk5(): void
     {
@@ -72,6 +93,8 @@ final class SplayTreeBulkTest extends TestCase
 
     /**
      * should be able to load into a tree with contents (interleave)
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testBulk6(): void
     {

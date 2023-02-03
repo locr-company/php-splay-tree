@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeDuplicateTest extends TestCase
 {
     /**
      * should allow inserting of duplicate key
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate1(): void
     {
@@ -25,6 +33,8 @@ final class SplayTreeDuplicateTest extends TestCase
 
     /**
      * should allow multiple duplicate keys in a row
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate2(): void
     {
@@ -41,6 +51,8 @@ final class SplayTreeDuplicateTest extends TestCase
 
     /**
      * should remove from a tree with duplicate keys correctly
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate3(): void
     {
@@ -66,6 +78,8 @@ final class SplayTreeDuplicateTest extends TestCase
 
     /**
      * should remove from a tree with multiple duplicate keys correctly
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate4(): void
     {
@@ -85,6 +99,8 @@ final class SplayTreeDuplicateTest extends TestCase
 
     /**
      * should disallow duplicates if noDuplicates is set
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate5(): void
     {
@@ -101,6 +117,8 @@ final class SplayTreeDuplicateTest extends TestCase
 
     /**
      * should add only if the key is not there
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testDuplicate6(): void
     {

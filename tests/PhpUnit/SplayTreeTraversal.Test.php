@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\{Node, SplayTree};
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\{Node, SplayTree};
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeTraversalTest extends TestCase
 {
     /**
      * should traverse the tree in order
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal1(): void
     {
@@ -26,6 +34,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should find predecessor for the node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal2(): void
     {
@@ -41,6 +51,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should find successor for a node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal3(): void
     {
@@ -56,6 +68,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should return null for predecessor of the min node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal4(): void
     {
@@ -73,6 +87,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should return null for successor of the max node
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal5(): void
     {
@@ -80,7 +96,7 @@ final class SplayTreeTraversalTest extends TestCase
         for ($i = 0; $i < 10; $i++) {
             $tree->insert($i);
         }
-    
+
         $max = $tree->maxNode();
         $this->assertNull($tree->next($max));
         $tree->remove($max->key);
@@ -90,6 +106,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should reach end in walking
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal6(): void
     {
@@ -116,6 +134,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * bidirectional stepping
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal7(): void
     {
@@ -143,6 +163,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should find successor and predecessor for 2-nodes tree
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal8(): void
     {
@@ -163,6 +185,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should be able to get a node by its index
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal9(): void
     {
@@ -181,6 +205,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should support range walking
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal10(): void
     {
@@ -198,6 +224,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should support range walking with non-existent low key
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal11(): void
     {
@@ -216,6 +244,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should support range walking with non-existent high key
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal12(): void
     {
@@ -234,6 +264,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should support range walking with both keys out of range
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal13(): void
     {
@@ -257,6 +289,8 @@ final class SplayTreeTraversalTest extends TestCase
 
     /**
      * should support range walking with interruption
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testTraversal14(): void
     {

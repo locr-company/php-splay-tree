@@ -2,13 +2,21 @@
 
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use SplayTree\SplayTree;
+namespace UnitTests;
 
+use Locr\Lib\SplayTree\SplayTree;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @covers Locr\Lib\SplayTree\SplayTree
+ * @coversDefaultClass Locr\Lib\SplayTree\SplayTree
+ */
 final class SplayTreeKeyValuesTest extends TestCase
 {
     /**
      * should return sorted keys
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues1(): void
     {
@@ -26,6 +34,8 @@ final class SplayTreeKeyValuesTest extends TestCase
 
     /**
      * should return sorted keys
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues2(): void
     {
@@ -41,33 +51,37 @@ final class SplayTreeKeyValuesTest extends TestCase
 
     /**
      * should return sorted values
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues3(): void
     {
         $t = new SplayTree();
-        $t->insert(5,   'D');
+        $t->insert(5, 'D');
         $t->insert(-10, 'A');
-        $t->insert(0,   'B');
-        $t->insert(33,  'E');
-        $t->insert(2,   'C');
-    
+        $t->insert(0, 'B');
+        $t->insert(33, 'E');
+        $t->insert(2, 'C');
+
         $this->assertEquals([-10, 0, 2, 5, 33], $t->keys());
         $this->assertEquals(['A', 'B', 'C', 'D', 'E'], $t->values());
     }
 
     /**
      * should return sorted values
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues4(): void
     {
         $t = new SplayTree(function ($a, $b) {
             return $b - $a;
         });
-        $t->insert(5,   'D');
+        $t->insert(5, 'D');
         $t->insert(-10, 'A');
-        $t->insert(0,   'B');
-        $t->insert(33,  'E');
-        $t->insert(2,   'C');
+        $t->insert(0, 'B');
+        $t->insert(33, 'E');
+        $t->insert(2, 'C');
 
         $this->assertEquals([33, 5, 2, 0, -10], $t->keys());
         $this->assertEquals(['E', 'D', 'C', 'B', 'A'], $t->values());
@@ -75,6 +89,8 @@ final class SplayTreeKeyValuesTest extends TestCase
 
     /**
      * should return sorted values after bulk insert
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues5(): void
     {
@@ -88,6 +104,8 @@ final class SplayTreeKeyValuesTest extends TestCase
     /**
      * here we are testing recursion approach
      * should be able to bulk-load 10000 items
+     *
+     * @covers Locr\Lib\SplayTree\Node::__construct
      */
     public function testKeyValues6(): void
     {
