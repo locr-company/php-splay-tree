@@ -208,7 +208,7 @@ class SplayTree implements \Iterator
         return null;
     }
 
-    public function forEach(callable $visitor, mixed $ctx = null): self
+    public function forEach(callable $visitor): self
     {
         $current = $this->root;
         $q = []; /* Initialize stack s */
@@ -539,7 +539,7 @@ class SplayTree implements \Iterator
     /**
      * Walk key range from `low` to `high`. Stops if `fn` returns a value.
      */
-    public function range(int $low, int $high, callable $fn, mixed $ctx = null): self
+    public function range(int $low, int $high, callable $fn): self
     {
         $q = [];
         $compare = $this->comparator;
