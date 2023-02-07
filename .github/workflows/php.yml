@@ -43,7 +43,7 @@ jobs:
 
     - name: Run test suite
       run: |
-        sudo apt-get install -y php-xdebug
+        sudo apt-get install -y php-pcov
         composer run-script test
         curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
         curl -Os https://uploader.codecov.io/latest/linux/codecov
