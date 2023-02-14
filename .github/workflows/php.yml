@@ -52,5 +52,6 @@ jobs:
       with:
         files: ./test-results/phpunit.clover.xml
         flags: unittests
+        fail_ci_if_error: true
         name: codecov-umbrella
         verbose: true
