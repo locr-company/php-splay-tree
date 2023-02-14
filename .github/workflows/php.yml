@@ -50,8 +50,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        directory: ./test-results/
-        files: ./phpunit.clover.xml
+        files: ./test-results/phpunit.clover.xml
         flags: unittests
         name: codecov-umbrella
         verbose: true
