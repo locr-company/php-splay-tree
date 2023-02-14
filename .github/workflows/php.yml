@@ -46,11 +46,12 @@ jobs:
         sudo apt-get install -y php-pcov
         sudo phpenmod pcov
         composer run-script test
-        curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
-        curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
-        gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
-        shasum -a 256 -c codecov.SHA256SUM
-        chmod +x codecov
-        ./codecov -t ${CODECOV_TOKEN} -f test-results/phpunit.clover.xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./test-results/
+        files: ./phpunit.clover.xml
+        flags: unittests
+        name: codecov-umbrella
+        verbose: true
