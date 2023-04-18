@@ -77,7 +77,7 @@ class SplayTree implements \Iterator
         }
 
         $comparator = $this->comparator;
-        $t = self::splayInternal($key, $this->root, $comparator);
+        $t = self::splayInternal($key, $this->root ?? $node, $comparator);
         $cmp = $comparator($key, $t->key);
         if ($cmp === 0) {
             $this->root = $t;
@@ -95,7 +95,7 @@ class SplayTree implements \Iterator
             $this->root = $node;
         }
 
-        return $this->root;
+        return $this->root ?? $node;
     }
 
     public function at(int $index): ?Node
@@ -241,8 +241,9 @@ class SplayTree implements \Iterator
     public function insert(int|array $key, mixed $data = null): Node
     {
         $this->size++;
-        $this->root = self::insertInternal($key, $data, $this->root, $this->comparator);
-        return $this->root;
+        $root = self::insertInternal($key, $data, $this->root, $this->comparator);
+        $this->root = $root;
+        return $root;
     }
 
     /**
