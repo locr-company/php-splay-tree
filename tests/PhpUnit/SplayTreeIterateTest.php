@@ -27,7 +27,7 @@ final class SplayTreeIterateTest extends TestCase
         $tree->insert(2);
 
         $i = 0;
-        foreach ($tree as $k => $n) {
+        foreach ($tree as $n) {
             $this->assertEquals($i++, $n->key);
         }
         $this->assertEquals(4, $i);

@@ -110,7 +110,7 @@ class SplayTree implements \Iterator
                 $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($q) > 0) {
+                if (!empty($q)) {
                     $current = array_pop($q);
                     if ($i === $index) {
                         return $current;
@@ -173,7 +173,13 @@ class SplayTree implements \Iterator
     private static function defaultComparator(): callable
     {
         return function (int|float $a, int|float $b): int {
-            return $a > $b ? 1 : ($a < $b ? -1 : 0);
+            if ($a > $b) {
+                return 1;
+            } elseif ($a < $b) {
+                return -1;
+            }
+
+            return 0;
         };
     }
 
@@ -219,9 +225,8 @@ class SplayTree implements \Iterator
                 $q[] = $current;
                 $current = $current->left;
             } else {
-                if (count($q) !== 0) {
+                if (!empty($q)) {
                     $current = array_pop($q);
-                    // $visitor.call($ctx, $current);
                     $visitor($current);
 
                     $current = $current->right;
@@ -547,7 +552,7 @@ class SplayTree implements \Iterator
         $node = $this->root;
         $cmp = 0;
 
-        while (count($q) !== 0 || !is_null($node)) {
+        while (!empty($q) || !is_null($node)) {
             if (!is_null($node)) {
                 $q[] = $node;
                 $node = $node->left;
@@ -784,7 +789,7 @@ class SplayTree implements \Iterator
                 $q[] = $current;
                 $current = $current->left;
             } else {
-                if (!is_null($p) && count($q) > 0) {
+                if (!is_null($p) && !empty($q)) {
                     $p->next = array_pop($q);
                     $p = $p->next;
                     $current = $p;

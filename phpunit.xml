@@ -9,8 +9,6 @@
     <report>
       <clover outputFile="test-results/phpunit.clover.xml"/>
       <html outputDirectory="test-results/html"/>
-      <text outputFile="test-results/phpunit.txt"/>
-      <xml outputDirectory="test-results/phpunit"/>
     </report>
   </coverage>
   <source>

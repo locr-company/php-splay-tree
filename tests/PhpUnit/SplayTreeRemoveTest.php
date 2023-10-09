@@ -86,7 +86,7 @@ final class SplayTreeRemoveTest extends TestCase
     {
         $tree = new SplayTree();
 
-        $n1 = $tree->insert(1);
+        $tree->insert(1);
         $n2 = $tree->insert(2);
         $n3 = $tree->insert(3);
 
