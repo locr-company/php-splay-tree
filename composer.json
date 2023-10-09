@@ -22,7 +22,9 @@
     },
     "scripts": {
         "phpcs": "./vendor/bin/phpcs ./src",
-        "phpstan": "./vendor/bin/phpstan --configuration=phpstan.neon",
+        "phpstan": "@phpstan-8.1",
+        "phpstan-8.1": "./vendor/bin/phpstan --configuration=phpstan-8.1.neon",
+        "phpstan-8.2": "./vendor/bin/phpstan --configuration=phpstan-8.2.neon",
         "test": "./vendor/bin/phpunit"
     },
     "autoload": {
