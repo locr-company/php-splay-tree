@@ -5,6 +5,7 @@ Implementation is adapted directly from this [GitHub Repository](https://github.
 
 ![php](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg)
 [![codecov](https://codecov.io/gh/locr-company/php-splay-tree/branch/main/graph/badge.svg?token=KESLR0XLJJ)](https://codecov.io/gh/locr-company/php-splay-tree)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=locr-company_php-splay-tree&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=locr-company_php-splay-tree)
 
 
 This tree is based on **top-down** splaying algorithm by D.Sleator. It supports
