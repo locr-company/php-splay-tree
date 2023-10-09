@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP 8.1
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
@@ -35,23 +35,20 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run CodeSniffer
+    - name: Setup PHP with PCOV
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        coverage: pcov
+
+    - name: Run CodeSniffer (phpcs)
       run: composer run-script phpcs
 
-    - name: Run PHP Static Analysis Tool
+    - name: Run PHP Static Analysis Tool (phpstan)
       run: composer run-script phpstan
 
-    - name: Run test suite
-      run: |
-        sudo apt-get install -y php-pcov
-        sudo phpenmod pcov
-        composer run-script test
+    - name: Run Unit Tests (phpunit)
+      run: composer run-script test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
-      with:
-        files: ./test-results/phpunit.clover.xml
-        flags: unittests
-        fail_ci_if_error: true
-        name: codecov-umbrella
-        verbose: true
