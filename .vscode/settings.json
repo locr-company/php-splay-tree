@@ -1,4 +1,5 @@
 {
     "intelephense.environment.phpVersion": "8.1.0",
-    "phpsab.standard": "PSR12"
+    "phpsab.standard": "PSR12",
+    "phpstan.configFile": "phpstan-8.1.neon"
 }

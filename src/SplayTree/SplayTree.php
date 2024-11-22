@@ -20,7 +20,7 @@ class SplayTree implements \Iterator
     private ?Node $root = null;
     private int $size = 0;
 
-    public function __construct(callable $comparator = null)
+    public function __construct(?callable $comparator = null)
     {
         $this->comparator = $comparator ?? self::defaultComparator();
     }
@@ -529,6 +529,9 @@ class SplayTree implements \Iterator
         return $predecessor;
     }
 
+    /**
+     * @param callable(Node): string $printNode
+     */
     private static function printRow(Node $root, string $prefix, bool $isTail, callable $out, callable $printNode): void
     {
         $tail = $isTail ? '└── ' : '├── ';
@@ -552,17 +555,16 @@ class SplayTree implements \Iterator
         $node = $this->root;
         $cmp = 0;
 
-        while (!empty($q) || !is_null($node)) {
-            if (!is_null($node)) {
+        while (!empty($q) || $node instanceof Node) {
+            if ($node instanceof Node) {
                 $q[] = $node;
                 $node = $node->left;
-            } else {
+            } elseif (!empty($q)) {
                 $node = array_pop($q);
                 $cmp = $compare($node->key, $high);
                 if ($cmp > 0) {
                     break;
                 } elseif ($compare($node->key, $low) >= 0) {
-                    // if ($fn.call(ctx, node)) {
                     if ($fn($node)) {
                         return $this; // stop if something is returned
                     }
@@ -662,11 +664,13 @@ class SplayTree implements \Iterator
             $left = self::sortedListToBST($list, $start, $middle);
 
             $root = $list['head'];
-            $root->left = $left;
+            if (!is_null($root)) {
+                $root->left = $left;
 
-            $list['head'] = $list['head']->next;
+                $list['head'] = $root->next;
 
-            $root->right = self::sortedListToBST($list, $middle + 1, $end);
+                $root->right = self::sortedListToBST($list, $middle + 1, $end);
+            }
 
             return $root;
         }
@@ -789,14 +793,16 @@ class SplayTree implements \Iterator
                 $q[] = $current;
                 $current = $current->left;
             } else {
-                if (!is_null($p) && !empty($q)) {
-                    $p->next = array_pop($q);
-                    $p = $p->next;
-                    $current = $p;
-                    $current = $current->right;
-                } else {
+                if (empty($q)) {
                     $done = true;
+                    continue;
                 }
+
+                $next = array_pop($q);
+                $p->next = $next;
+                $p = $p->next;
+                $current = $p;
+                $current = $current->right;
             }
         }
         $p->next = null; // that'll work even if the tree was empty
@@ -804,7 +810,10 @@ class SplayTree implements \Iterator
         return $head->next;
     }
 
-    public function toString(callable $printNode = null): string
+    /**
+     * @param callable(Node): string $printNode
+     */
+    public function toString(?callable $printNode = null): string
     {
         $out = [];
 
