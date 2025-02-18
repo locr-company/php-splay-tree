@@ -25,6 +25,9 @@
                         "args": ["php"]
                     }
                 ]
+            },
+            {
+                "action": "composer dev:analyze:phpstan"
             }
         ]
     },

@@ -1,5 +1,9 @@
 {
     "intelephense.environment.phpVersion": "8.1.0",
     "phpsab.standard": "PSR12",
-    "phpstan.configFile": "phpstan-8.1.neon"
+    "phpstan.configFile": "phpstan-8.1.neon",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "locr-company",
+        "projectKey": "locr-company_php-splay-tree"
+    }
 }
